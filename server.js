@@ -116,59 +116,64 @@ function mainMenu() {
 
       //   add new employees
       if (answer === "add_employee") {
-        inquire
-          .prompt([
-            {
-              name: "first_name",
-              message: "What is your first name?",
-            },
-            {
-              name: "last_name",
-              message: "What is your last name?",
-            },
-            {
-              name: "role_id",
-              message: "What is the employee's role?",
-            },
-            {
-              name: "manager_id",
-              message: "Who is the employee's manager?",
-            },
-          ])
+        async function test() {
+          inquire
+            .prompt([
+              {
+                name: "first_name",
+                message: "What is your first name?",
+              },
+              {
+                name: "last_name",
+                message: "What is your last name?",
+              },
+              {
+                name: "role_id",
+                message: "What is the employee's role?",
+              },
+              {
+                type: "list",
+                choices: await getEmployees(connection),
+                name: "manager_id",
+                message: "Who is the employee's manager?",
+              },
+            ])
 
-          .then((res) => {
-            connection.query(
-              "SELECT role.id FROM role WHERE title = ?",
-              res.role_id,
-              (err, data) => {
-                if (err) console.log(err);
+            .then((res) => {
+              connection.query(
+                "SELECT role.id FROM role WHERE title = ?",
+                res.role_id,
+                (err, data) => {
+                  if (err) console.log(err);
 
-                connection.query(
-                  "SELECT employees.id FROM employees WHERE first_name = ?",
-                  res.manager_id,
-                  function (err, managerData) {
-                    if (err) console.log(err);
-                    managerData;
-                    connection.query(
-                      "INSERT INTO employees SET ?",
-                      {
-                        first_name: `${res.first_name}`,
-                        last_name: `${res.last_name}`,
-                        role_id: `${data[0].id}`,
-                        manager_id: `${managerData[0].id}`,
-                      },
-                      (err, res) => {
-                        if (err) console.log(err);
-                        console.log("success");
-                        mainMenu();
-                      }
-                    );
-                  }
-                );
-              }
-            );
-            // console.log(`Adding ${res.first_name} to the database`);
-          });
+                  connection.query(
+                    "SELECT employees.id FROM employees WHERE first_name = ?",
+                    res.manager_id,
+                    function (err, managerData) {
+                      if (err) console.log(err);
+                      managerData;
+                      connection.query(
+                        "INSERT INTO employees SET ?",
+                        {
+                          first_name: `${res.first_name}`,
+                          last_name: `${res.last_name}`,
+                          role_id: `${data[0].id}`,
+                          manager_id: `${managerData[0].id}`,
+                        },
+                        (err, res) => {
+                          if (err) console.log(err);
+                          console.log("success");
+                          mainMenu();
+                        }
+                      );
+                    }
+                  );
+                }
+              );
+              // console.log(`Adding ${res.first_name} to the database`);
+            });
+        }
+        test();
       }
       // .then((res) => {
       //   const first_name = res.first_name;
