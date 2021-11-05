@@ -188,18 +188,18 @@ function mainMenu() {
             },
             {
               type: "input",
-              name: "employee manager",
+              name: "employee_manager",
               message: "Who is the manager of the employee?",
             },
             {
               type: "input",
-              name: "manager id",
+              name: "manager_id",
               message: "What is the manager's id?",
             },
           ])
           .then((res) => {
             connection.query(
-              `UPDATE employees SET manager_id = ${res.manager} WHERE id = ${res.employee}`,
+              `UPDATE employees SET manager_id = ${res.manager_id} WHERE id = ${res.employee}`,
               (err, res) => {
                 if (err) console.log(err);
                 console.table(res);
