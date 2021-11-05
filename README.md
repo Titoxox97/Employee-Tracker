@@ -25,7 +25,7 @@ THEN I am prompted to select an employee to update and their new role and this i
 </p>
 
 <h3>Screen Castify Link to Video</h3>
-<p></p>
+<p>https://watch.screencastify.com/v/VQvW6b8UqMMIh3r36chi</p>
 
 <h4>Technologies Incorporated</h4>
 <p>
@@ -33,3 +33,6 @@ THEN I am prompted to select an employee to update and their new role and this i
 - Inquirer
 - Sequelize
 </p>
+
+<h5>Author</h5>
+<p>Matias Ahrensdorf</p>
