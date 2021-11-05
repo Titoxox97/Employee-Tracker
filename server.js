@@ -47,11 +47,11 @@ function mainMenu() {
           },
           {
             name: "Add Role",
-            value: "add_position",
+            value: "add_role",
           },
           {
             name: "Remove Role",
-            value: "remove_position",
+            value: "remove_role",
           },
           {
             name: "View All Departments",
@@ -175,58 +175,6 @@ function mainMenu() {
         }
         test();
       }
-      // .then((res) => {
-      //   const first_name = res.first_name;
-      //   const last_name = res.last_name;
-      //   console.log(first_name);
-      //   console.log(last_name);
-      //   connection.query("SELECT * FROM role", function (err, res) {
-      //     console.log(res);
-      //     const choices = res.map((role) => {
-      //       return {
-      //         name: role.title,
-      //         value: role.department_id,
-      //       };
-      //     });
-      //     inquire
-      //       .prompt({
-      //         type: "list",
-      //         message: "What is the employee's role?",
-      //         name: "role_id",
-      //         choices,
-      //       })
-      //       .then((res) => {
-      //         console.log(res);
-
-      //         connection.query(
-      //           "SELECT * FROM employees",
-      //           function (err, res) {
-      //             if (err) console.log(err);
-      //             const choices = res.map((employee) => {
-      //               return {
-      //                 name: `${employee.first_name} ${employee.last_name}`,
-      //                 value: employee.id,
-      //               };
-      //             });
-      //             console.log(res);
-      //           }
-      //           //   another inquire for manager_id
-      //         );
-      //       });
-      //     inquire.prompt({
-      //       type: "list",
-      //       name: "manager_id",
-      //       message: "Who is the employees manager?",
-      //     });
-
-      //   connection.query(
-      //     "INSERT INTO employees SET ?",
-      //     employee,
-      //     function (err, res) {
-      //       if (err) console.log(err);
-      //       console.table(res);
-      //     }
-      //   );
 
       //   remove any employees who left or were terminated
       if (answer === "remove_employee") {
@@ -265,7 +213,7 @@ function mainMenu() {
 
       //   update the manager of the employee
       if (answer === "update_employee_manager") {
-        inquirer
+        inquire
           .prompt([
             {
               type: "input",
@@ -306,6 +254,46 @@ function mainMenu() {
         connection.query("SELECT * FROM role", function (err, res) {
           if (err) console.log(err);
           console.table(res);
+          var choices = res.map((choice) => {
+            return {
+              name: choice.title,
+              value: choice.department_id,
+            };
+          });
+          inquire
+            .prompt([
+              {
+                type: "input",
+                name: "title",
+                message: "Enter title of role:",
+              },
+              {
+                type: "input",
+                name: "salary",
+                message: "Enter salary of role",
+              },
+              {
+                type: "list",
+                name: "department_id",
+                message: "Choose the department you'd like to view",
+                choices,
+              },
+            ])
+            .then((res) => {
+              connection.query(
+                "INSERT INTO role SET ?",
+                {
+                  title: `${res.title}`,
+                  salary: `${res.salary}`,
+                  department_id: `${res.department_id}`,
+                },
+                (err, res) => {
+                  if (err) console.log(err);
+                  console.log("success");
+                  mainMenu();
+                }
+              );
+            });
         });
       }
 
