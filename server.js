@@ -18,20 +18,8 @@ function mainMenu() {
             value: "viewEmployees",
           },
           {
-            name: "View All Employees By Department",
-            value: "viewEmployees_by_department",
-          },
-          {
-            name: "View All Employees By Manager",
-            value: "viewEmployees_by_manager",
-          },
-          {
             name: "Add Employee",
             value: "add_employee",
-          },
-          {
-            name: "Remove Employee",
-            value: "remove_employee",
           },
           {
             name: "Update Employee Role",
@@ -50,10 +38,6 @@ function mainMenu() {
             value: "add_role",
           },
           {
-            name: "Remove Role",
-            value: "remove_role",
-          },
-          {
             name: "View All Departments",
             value: "view_departments",
           },
@@ -61,14 +45,30 @@ function mainMenu() {
             name: "Add Department",
             value: "add_department",
           },
-          {
-            name: "Remove Department",
-            value: "remove_department",
-          },
-          {
-            name: "View Total Utilized Budget By Department",
-            value: "view_budget_by_department",
-          },
+          //   {
+          //     name: "Remove Department",
+          //     value: "remove_department",
+          //   },
+          //   {
+          //     name: "Remove Role",
+          //     value: "remove_role",
+          //   },
+          //   {
+          //     name: "Remove Employee",
+          //     value: "remove_employee",
+          //   },
+          //   {
+          //     name: "View Total Utilized Budget By Department",
+          //     value: "view_budget_by_department",
+          //   },
+          //   {
+          //     name: "View All Employees By Department",
+          //     value: "viewEmployees_by_department",
+          //   },
+          //   {
+          //     name: "View All Employees By Manager",
+          //     value: "viewEmployees_by_manager",
+          //   },
           {
             name: "Quit",
             value: "quit",
@@ -80,14 +80,6 @@ function mainMenu() {
     .then((res) => {
       var answer = res.choice;
       console.log(answer);
-      //   switch (answer) {
-      //       case value:
-
-      //           break;
-
-      //       default:
-      //           break;
-      //   }
       if (answer === "viewEmployees") {
         connection.query(
           "SELECT employees.id AS employee_id, CONCAT(employees.first_name,employees.last_name) AS employeeName, role.title AS role_title, role.salary AS role_salary, department.name AS department_name FROM employees left JOIN role ON employees.role_id = role.id left JOIN department ON role.department_id = department.id ",
@@ -96,22 +88,6 @@ function mainMenu() {
             console.table(res);
           }
         );
-      }
-
-      //   view employees by what department they're in
-      if (answer === "viewEmployees_by_department") {
-        connection.query("SELECT * FROM employees", function (err, res) {
-          if (err) console.log(err);
-          console.table(res);
-        });
-      }
-
-      //   View employees based on who their manager is
-      if (answer === "viewEmployees_by_manager") {
-        connection.query("SELECT * FROM employees", function (err, res) {
-          if (err) console.log(err);
-          console.table(res);
-        });
       }
 
       //   add new employees
@@ -170,18 +146,9 @@ function mainMenu() {
                   );
                 }
               );
-              // console.log(`Adding ${res.first_name} to the database`);
             });
         }
         test();
-      }
-
-      //   remove any employees who left or were terminated
-      if (answer === "remove_employee") {
-        connection.query("SELECT * FROM employees", function (err, res) {
-          if (err) console.log(err);
-          console.table(res);
-        });
       }
 
       // Update role
@@ -297,14 +264,6 @@ function mainMenu() {
         });
       }
 
-      //   remove employee roles
-      if (answer === "remove_role") {
-        connection.query("SELECT * FROM role", function (err, res) {
-          if (err) console.log(err);
-          console.table(res);
-        });
-      }
-
       //   View all departments
       if (answer === "view_departments") {
         connection.query("SELECT * FROM department", function (err, res) {
@@ -338,21 +297,53 @@ function mainMenu() {
           });
       }
 
-      // remove unwanted departments
-      if (answer === "remove_department") {
-        connection.query("SELECT * FROM department", function (err, res) {
-          if (err) console.log(err);
-          console.table(res);
-        });
-      }
+      //   // remove unwanted departments
+      //   if (answer === "remove_department") {
+      //     connection.query("SELECT * FROM department", function (err, res) {
+      //       if (err) console.log(err);
+      //       console.table(res);
+      //     });
+      //   }
 
-      //   View budget, by specific department
-      if (answer === "view_budget_by_department") {
-        connection.query("SELECT * FROM department", function (err, res) {
-          if (err) console.log(err);
-          console.table(res);
-        });
-      }
+      //   //   remove employee roles
+      //   if (answer === "remove_role") {
+      //     connection.query("SELECT * FROM role", function (err, res) {
+      //       if (err) console.log(err);
+      //       console.table(res);
+      //     });
+      //   }
+
+      //   //   remove any employees who left or were terminated
+      //   if (answer === "remove_employee") {
+      //     connection.query("SELECT * FROM employees", function (err, res) {
+      //       if (err) console.log(err);
+      //       console.table(res);
+      //     });
+      //   }
+
+      //   //   View employees based on who their manager is
+      //   if (answer === "viewEmployees_by_manager") {
+      //     connection.query("SELECT * FROM employees", function (err, res) {
+      //       if (err) console.log(err);
+      //       console.table(res);
+      //     });
+      //   }
+
+      //   //   view employees by what department they're in
+      //   if (answer === "viewEmployees_by_department") {
+      //     connection.query("SELECT * FROM employees", function (err, res) {
+      //       if (err) console.log(err);
+      //       console.table(res);
+      //     });
+      //   }
+
+      //   //   View budget, by specific department
+      //   if (answer === "view_budget_by_department") {
+      //     connection.query("SELECT * FROM department", function (err, res) {
+      //       if (err) console.log(err);
+      //       console.table(res);
+      //     });
+      //   }
     });
 }
 mainMenu();
