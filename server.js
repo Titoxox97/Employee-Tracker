@@ -23,7 +23,7 @@ function mainMenu() {
           },
           {
             name: "Update Employee Role",
-            value: "update_employee_position",
+            value: "update_employee_role",
           },
           {
             name: "Update Employee Manager",
@@ -168,8 +168,7 @@ function mainMenu() {
           ])
           .then((res) => {
             connection.query(
-              "UPDATE employees SET role_id = ? WHERE id = ?",
-              [`${res.role}, ${res.employee}`],
+              `UPDATE employees SET role_id = ${res.role} WHERE id = ${res.employee}`,
               (err, res) => {
                 if (err) console.log(err);
                 console.table(res);
@@ -184,6 +183,11 @@ function mainMenu() {
           .prompt([
             {
               type: "input",
+              name: "employee",
+              message: "Which employee needs their manager changed?",
+            },
+            {
+              type: "input",
               name: "employee manager",
               message: "Who is the manager of the employee?",
             },
@@ -195,7 +199,7 @@ function mainMenu() {
           ])
           .then((res) => {
             connection.query(
-              "UPDATE employees SET manager_id = ? WHERE id = ?",
+              `UPDATE employees SET manager_id = ${res.manager} WHERE id = ${res.employee}`,
               (err, res) => {
                 if (err) console.log(err);
                 console.table(res);
